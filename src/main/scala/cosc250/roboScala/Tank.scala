@@ -45,6 +45,9 @@ case class Tank(name:String,
   /** Whether this tank has enough energy to ping the radar */
   def canPing:Boolean = isAlive && energy > Tank.radarPower
 
+  /** Whether this tank has full energy */
+  def fullEnergy:Boolean = isAlive && energy == Tank.startingEnergy
+
   /** Called by the GameActor to work out what happens to the tank. */
   def update(dt:Double, commands:Set[Command]):Tank = {
 
@@ -98,6 +101,8 @@ case class Tank(name:String,
     }
 
   }
+
+
 
   /** Used for hit detection */
   def bodyIntersects(r:Rectangle2D):Boolean = {

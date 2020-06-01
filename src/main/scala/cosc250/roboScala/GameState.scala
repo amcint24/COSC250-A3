@@ -12,6 +12,8 @@ object GameState {
 
   val height = 480
 
+  val middle = Vec2(width/2, height/2)
+
   /** Returns whether a point is within the game area */
   def inBounds(p:Vec2, buffer:Double = 20):Boolean = {
     p.x > buffer && p.x < width - buffer &&

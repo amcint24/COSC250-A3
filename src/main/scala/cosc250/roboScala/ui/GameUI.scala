@@ -2,12 +2,15 @@ package cosc250.roboScala.ui
 
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
-import javax.swing._
 
+import akka.{Done, NotUsed}
+import akka.stream.ActorMaterializer
+import javax.swing._
 import akka.stream.scaladsl.Sink
 import cosc250.roboScala._
 
 import scala.collection.mutable
+import scala.concurrent.Future
 
 /** The UI for a game. Note that it takes a by-name argument. */
 class GameUI(gameState: => GameState, commands: => Map[String, Set[Command]]) {
@@ -133,8 +136,8 @@ class GameUI(gameState: => GameState, commands: => Map[String, Set[Command]]) {
   }
 
   def register() = {
-    // TODO: you need to implement this!
-    // Send Main.commandStreamActor a RegisterStreamSink message, with a Sink that will call pushCommand(tank, command)
+    val sink:Sink[(String,Command), Future[Done]] = Sink.foreach[(String,Command)]((t:(String,Command))  => pushCommand(t._1,t._2))
+    Main.commandStreamActor ! RegisterStreamSink(sink)
   }
 
 
